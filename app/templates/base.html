@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/media.css') }}">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    <div class="modal-overlay"></div>
+    <header id="header" class="navbar-base">
+        <button id="toggle" class="toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+        <nav id="navbar">
+            <div class="text-links">
+                <h1 class="logo-header">tren-d</h1>
+                <ul class="text-links-list">
+                    <li>
+                        <a href="{{ url_for('index') }}">Home</a>
+                    </li>
+                    <li class="text-link-category">
+                        <a href="{{ url_for('search') }}">Categories</a>
+                        <div class="text-link-dropdown categories">
+                            <ul>
+                                <li><h3>Shop by...</h3></li>
+                                <li><a href="{{ url_for('search', category='shirts') }}">Shirts</a></li>
+                                <li><a href="{{ url_for('search', category='shoes') }}">Shoes</a></li>
+                                <li><a href="{{ url_for('search', category='jackets') }}">Jackets</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li><a href="{{ url_for('search') }}">Products</a></li>
+                </ul>
+            </div>
+            <div class="icon-links">
+                <ul class="icon-links-list">
+                    <li><a href=""><i class="fas fa-shopping-cart fa-lg"></i></a></li>
+                </ul>
+            </div>
+        </nav>
+    </header> 
+    <!-- Main Content -->
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+
+    {% include "footer.html" %}
+
+    <script src="https://kit.fontawesome.com/838ceaf136.js" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>

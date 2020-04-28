@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}
+TREN-D | {{ category|title }}
+{% endblock %}
+ 
+{% block content %}
+<section id="search">
+    <div class="grid-container">
+        <div class="search-bar">
+            <h2>categories</h2>
+            <ul class="search-list">
+                {% for category in category_types %}
+                <li class="search-item"><a href="{{ url_for('search', category=category) }}">{{ category|title }}</a></li>
+                {% endfor %}
+            </ul>
+            <h3>filter</h3>
+            <form class="search-form">
+                <h4>price</h4>
+                {{ form.price }}
+                <h4>color</h4>
+                {{ form.color }}
+                <h4>size</h4>
+                {{ form.size }}
+                <input type="submit" value="filter" class="btn-1">
+            </form>
+        </div>
+
+        <div class="main-content">
+            <div class="search-image">
+                {% if category %}
+                <img src="{{ url_for('static', filename='images/search/' + category + '.jfif')}}" alt="">
+                <h1 class="search-image header">{{ category|upper }}</h1>
+                {% else %}
+                <h1 class="search-image all-header">All Products</h1>
+                {% endif %}
+
+            </div>
+            <div class="search-results">
+                {% for item in search_results %}
+                <div class="search-result-item">
+                    <a href="{{ url_for('product', id=item.id) }}">
+                        <img src="{{ url_for('static', filename=item.image_url) }}" alt="">
+                    </a>
+                    <p>{{ item.name }}</p>
+                    <h4>¥ {{ item.price }}</h4>               
+                </div>
+                {% endfor %}
+            </div>    
+        </div>
+    </div>
+    {% if url_prev%}
+    <a href="{{ url_prev }}">Previous</a>
+    {% endif %}
+    {% if url_next%}
+    <a href="{{ url_next }}">Next</a>
+    {% endif %}
+</section>
+
+{% endblock %}

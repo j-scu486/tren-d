@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>This is the product: {{ product.name }}</h1>
+<img src="{{ url_for('static', filename=product.image_url) }}" alt="">
+<form method="POST">
+    {{ form.csrf_token }}
+    {{ form.quantity }}
+    {{ form.submit_add }}
+    {% for error in form.errors %}
+    <li>{{ error }}</li> 
+{% endfor %}
+</form>
+
+{% endblock %}

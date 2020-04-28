@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>This is the order page</h1>
+<form method="POST">
+    {{ form.csrf_token }}
+   <p>
+       First Name: 
+    {{ form.first_name }}
+   </p> 
+   <p>
+       Last Name:
+    {{ form.last_name }}
+
+   </p>
+   <p>
+       Email: 
+    {{ form.email }}
+   </p>
+   <p>
+       Address: 
+    {{ form.address }}
+   </p>
+   <p>
+       Post Code:
+       {{ form.postal_code }}
+   </p>
+   <p>
+    City: 
+    {{ form.city }}
+   </p>
+   <p>
+    {{ form.submit }}
+   </p>
+   {% for error in form.errors %}
+    <li>{{ error }}</li> 
+   {%endfor %}
+</form>
+
+{% endblock %}

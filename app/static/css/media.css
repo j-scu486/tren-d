@@ -1,0 +1,133 @@
+
+@media only screen and (max-width: 600px) {
+    /* Category */
+
+    #home-category {
+        text-align: center;
+    }
+
+    #home-category .home-cards{
+        flex-direction: column;
+    }
+
+    #home-category .category-card .card-img{
+        height: 200px;
+    }
+
+    /* Footer */
+    #footer {
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+    }
+    
+    #footer .contact-info {
+        margin: 20px 0;
+    }
+
+    #footer .links {
+        margin: 20px 0
+    }
+}
+
+
+@media only screen and (max-width: 900px) {
+
+    .toggle {
+        display: block;
+        position: fixed;
+        z-index: 100;
+    }
+
+    #navbar {
+        position: fixed;
+        height: 100vh;
+        top: 0;
+        background: #f7f7f7;
+        z-index: 100;
+        width: 200px;
+        flex-direction: column;
+        transform: translateX(-100%);
+        transition: transform 0.5s ease;
+    }
+
+    #navbar.navbar-index {
+        position: fixed;
+        width: auto;
+        height: 100%;
+    }
+    
+    #navbar .text-links {
+        flex-direction: column;
+        margin: 10px 10px;
+    }
+    
+    #navbar .text-links .logo-header {
+        font-size: 2rem;
+        border-bottom: 2px solid #2c2c2c;
+        margin: 0 0 20px 0;
+    }
+    
+    #navbar .text-links .text-links-list {
+        flex-direction: column;
+        margin: 0 20px;
+    }
+    
+    #navbar .text-links .text-links-list a {
+        padding-right: 1rem;
+    }
+
+    #navbar .text-links .text-links-list li{
+        font-size: 1rem;
+        letter-spacing: 2px;
+        margin: 10px 25px;
+
+    }
+
+    #navbar .icon-links .icon-links-list {
+        display: none;
+    }
+
+    /* Showcase */
+
+    #showcase .showcase-image-1 {
+        height: 100vh;
+        background-image: url(../images/header-background.jpg);
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        z-index: 100;
+      }
+      
+      #showcase .showcase-info {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          position: absolute;
+          top: 60%;
+          left: 5%;
+          width: 90%;
+      }
+      
+      #showcase .showcase-info p {
+          font-size: 1rem;
+      }
+      
+      #showcase .showcase-info h1 {
+          font-size: 2rem;
+          font-family: 'Oswald', sans-serif;
+      }
+
+      #showcase .btn-1 a {
+          padding: 0.3rem 0.5rem;
+      }
+
+      /* Category */
+
+      #home-category .home-info {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+}
+

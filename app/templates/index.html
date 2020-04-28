@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/media.css') }}">
+    <title>TREN-D</title>
+</head>
+
+<header id="header">
+    <div class="modal-overlay"></div>
+    <button id="toggle" class="toggle">
+        <i class="fas fa-bars"></i>
+    </button>
+    <nav id="navbar" class="navbar-index">
+        <div class="text-links">
+            <h1 class="logo-header">tren-d</h1>
+            <ul class="text-links-list">
+                <li>
+                    <a href="{{ url_for('index') }}">Home</a>
+                </li>
+                <li class="text-link-category">
+                    <a href="{{ url_for('search') }}">Categories</a>
+                    <div class="text-link-dropdown categories">
+                        <ul>
+                            <li><h3>Shop by...</h3></li>
+                            <li><a href="{{ url_for('search', category='shirts') }}">Shirts</a></li>
+                            <li><a href="{{ url_for('search', category='shoes') }}">Shoes</a></li>
+                            <li><a href="{{ url_for('search', category='jackets') }}">Jackets</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li><a href="{{ url_for('search') }}">Products</a></li>
+            </ul>
+        </div>
+        <div class="icon-links">
+            <ul class="icon-links-list">
+                <li><a href=""><i class="fas fa-shopping-cart fa-lg"></i></a></li>
+            </ul>
+        </div>
+    </nav>
+    <div id="showcase">
+        <div class="showcase-container">
+            <div class="showcase-image-1"></div>    
+            <div class="showcase-info">
+                <h1>Up to 70% off all Sunglasses</h1>
+                <p>Summer is here. Tren-D is here.</p>
+                <button class="btn-1"><a href="">shop by sunglasses</a></button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<body>
+    <main>
+        <section id="home-info">
+            <div id="home-category">
+                <div class="home-info">
+                    <h2>Shop by Category</h2>
+                    <p>Browse in all of our categories</p>  
+                </div>
+                <div class="home-cards">
+                    {% for category in categories %}
+                    <div class="category-card">
+                        <a href="{{ url_for('search', category=category.name )}}">
+                            <img class="card-img" src="{{ url_for('static', filename=category.image) }}" alt="">
+                        </a>
+                        <h3 class="card-title">{{ category.name|title }}</h3>
+                        <p>{{ category.product_list|length }} products</p>
+                    </div>
+                    {% endfor %}
+                </div>
+        
+            </div>    
+            
+            <div id="home-promotion-cards">
+                <div class="promotion-card card-1">
+                    <img 
+                        src="{{ url_for('static', filename='images/promotion/img2_pen5ee/img2_pen5ee_c_scale,w_1050.jpg') }}" 
+                        srcset="{{ url_for('static', filename='images/promotion/img2_pen5ee/img2_pen5ee_c_scale,w_200.jpg') }} 200w,
+                                {{ url_for('static', filename='images/promotion/img2_pen5ee/img2_pen5ee_c_scale,w_440.jpg') }} 440w,
+                                {{ url_for('static', filename='images/promotion/img2_pen5ee/img2_pen5ee_c_scale,w_610.jpg') }} 610w,
+                                {{ url_for('static', filename='images/promotion/img2_pen5ee/img2_pen5ee_c_scale,w_736.jpg') }} 736w,
+                                {{ url_for('static', filename='images/promotion/img2_pen5ee/img2_pen5ee_c_scale,w_843.jpg') }} 843w,
+                                {{ url_for('static', filename='images/promotion/img2_pen5ee/img2_pen5ee_c_scale,w_949.jpg') }} 949w,
+                                {{ url_for('static', filename='images/promotion/img2_pen5ee/img2_pen5ee_c_scale,w_1050.jpg') }} 1050w"
+                        alt="">
+                    <h1>Find Your Style. Be Tren-D</h1>
+                    <button class="btn-1 prom-btn-1"><a href="">shop by brand</a></button>
+                </div>
+                <div class="promotion-card card-2">
+                    <img src="{{ url_for('static', filename='images/promotion/img3.jfif') }}" alt="">
+                    <h1>Summer Accessory Sale</h1>
+                    <button class="btn-1 prom-btn-2"><a href="">shop by accessories</a></button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    {% include "footer.html" %}
+
+    <script src="https://kit.fontawesome.com/838ceaf136.js" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>
+
+
+
+<!-- 
+    <h1>This is the product page</h1>
+<ul>
+    {% for product in products %}
+    <li>
+        <p>Product: {{ product.name }} <a href="{{ url_for('product', id=product.id) }}">Go to product page</a></p>
+    </li>
+    {% endfor %}
+</ul>
+
+<h2>Checkout</h2>
+
+<a href="">Checkout</a>
+<a href="{{ url_for('cart_list') }}">Cart</a>
+<a href="{{ url_for('search') }}">Search</a>
+ -->
