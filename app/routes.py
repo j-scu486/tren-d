@@ -2,7 +2,7 @@ from flask import render_template, session, redirect, url_for, request
 from app import app, db
 from app.models import Product, Order, CartItem, Category
 from app.forms import AddToCart, OrderForm, SearchForm
-from sqlalchemy import or_
+from app.search import SearchItems
 
 @app.route('/')
 def index():
@@ -102,44 +102,30 @@ def order():
 @app.route('/search', defaults={'category': None})
 @app.route('/search/<string:category>')
 def search(category):    
-    filtered_results = None
     query = request.args
     search_results = None
     category_types = [category_entry.name for category_entry in Category.query.all()]
     category_search = Category.query.filter_by(name=category).first()
+    url_kwargs = {}
     page = request.args.get('page', 1, type=int)
 
-    # Filter for any number of parameters given
-
-    filter_array = ['price', 'size', 'color']
-
-    for v in filter_array:
-        if v == 'price' and query.getlist(v):
-            price = int(query.getlist(v)[0])
-            filtered_results = Product.query.filter(Product.price.between((price - 100), price))
-
-        elif query.getlist(v):
-            if not filtered_results:
-                filtered_results = Product.query.filter(getattr(Product, v).in_(query.getlist(v)))
-                if category_search:
-                    filtered_results = filtered_results.filter_by(product_category=category_search)
-            else:
-                filtered_results = filtered_results.filter(getattr(Product, v).in_(query.getlist(v)))
-
-    if filtered_results is not None:
-        # Return items with given filtered params
-        search_results = filtered_results.paginate(page, 2, False)
-    elif category_search:
-        # Return all products for the given category
-        search_results = Product.query.filter_by(product_category=category_search).paginate(page, 2, False)
-    else:
-        # No category given: return all products
-        search_results = Product.query.paginate(page, 3, False)
+    # Save search preferences
+    if request.args.get('show'):
+        session['search'] = request.args.get('show', type=int)
+    if request.args.get('sort'):
+        session['sort'] = request.args.get('sort', type=str)
+    
+    search = SearchItems(['price', 'size', 'color'], category_search, query, page)
+    if 'sort' in session:
+        search_results = search.get_sorted_results(session['sort'])    
+    else: 
+        search_results = search.get_results()
+    url_kwargs = search.get_url_kwargs()
 
     form = SearchForm()
-    # Currently, urls dont take in params so prev and next are incorrect if filters are applied
-    url_prev = url_for('search', page=search_results.prev_num, category=category) if search_results.has_prev else None
-    url_next = url_for('search', page=search_results.next_num, category=category) if search_results.has_next else None
+
+    url_prev = url_for('search', page=search_results.prev_num, category=category, **url_kwargs) if search_results.has_prev else None
+    url_next = url_for('search', page=search_results.next_num, category=category, **url_kwargs) if search_results.has_next else None
     
     return render_template('search.html',  
                             search_results=search_results.items, 

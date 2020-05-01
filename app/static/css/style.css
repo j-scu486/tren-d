@@ -69,9 +69,12 @@ button {
     letter-spacing: inherit; 
 }
 
-button:focus {
+button:focus,
+select:focus,
+input:focus {
     outline: none;
 }
+
 
 /* Common Styles */
 
@@ -453,6 +456,38 @@ button:focus {
     text-align: center;
 }
 
+#search .links-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#search .link {
+    font-size: 1rem;
+    text-transform: uppercase;
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: 1px;
+    padding: 0.25rem 0.5rem;
+    background-color: #222222;
+    color: #fff;
+    margin: 0 10px;
+}
+
+#search .sort-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+}
+
+#search .sort-container .btn-1{
+    font-size: 0.8rem;
+    margin-left: 20px;
+}
+
+#search .sort-container select {
+    padding: 0.25rem;
+    border: 2px solid #222222;  
+}
 
 /* Footer */
 

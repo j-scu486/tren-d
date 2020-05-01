@@ -129,5 +129,27 @@
         text-align: center;
         margin-bottom: 50px;
     }
+
+    /* Search */
+    #search .grid-container {
+        grid-template-columns: 1fr;
+    }
+
+    #search .search-results {
+        grid-row-start: 1;
+    }
+
+    #search .btn-1 {
+        display: block;
+        margin: 25px auto;
+    }
+
+    #search .search-bar {
+        grid-row-start: 2;
+    }
+
+    #search .sort-container  {
+        display: none;
+    }
 }
 

@@ -36,6 +36,25 @@ TREN-D | {{ category|title }}
                 {% endif %}
 
             </div>
+            <div class="sort-container">
+                <form>
+                    <label for="sort"></label>
+                    <select name="sort" id="sort">
+                        <option value="asc">Price: Ascending</option>
+                        <option value="desc">Price: Decending</option>
+                    </select>
+                    <input type="submit" value="sort" class="btn-1">
+                </form>
+                <form>
+                    <label for="show"></label>
+                    <select name="show" id="show">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                    <input type="submit" value="show" class="btn-1">
+                </form>
+            </div>
             <div class="search-results">
                 {% for item in search_results %}
                 <div class="search-result-item">
@@ -45,16 +64,21 @@ TREN-D | {{ category|title }}
                     <p>{{ item.name }}</p>
                     <h4>¥ {{ item.price }}</h4>               
                 </div>
+                {% else %}
+                <div class="search-result-item"><strong>No Results Found</strong></div>
                 {% endfor %}
+            </div>
+            <div class="links-container">
+                {% if url_prev%}
+                <a href="{{ url_prev }}" class="link">prev</a>
+                {% endif %}
+                {% if url_next%}
+                <a href="{{ url_next }}" class="link">next</a>
+                {% endif %}
             </div>    
         </div>
     </div>
-    {% if url_prev%}
-    <a href="{{ url_prev }}">Previous</a>
-    {% endif %}
-    {% if url_next%}
-    <a href="{{ url_next }}">Next</a>
-    {% endif %}
+
 </section>
 
 {% endblock %}
