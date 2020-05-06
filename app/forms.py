@@ -6,6 +6,7 @@ from wtforms.validators import DataRequired, Email, Length
 
 class AddToCart(FlaskForm):
     quantity = SelectField('Quantity', choices=[(i, i) for i in range(1,20)], coerce=int)
+    size = SelectField('Size', choices=[("",""),('L', 'L'), ('M', 'M'), ('S', 'S')], validators=[DataRequired()], coerce=str)
     id = HiddenField()
     submit_add = SubmitField('Add to Cart')
     submit_update = SubmitField('Update Quantity')

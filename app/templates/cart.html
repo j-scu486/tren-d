@@ -1,20 +1,46 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>This is your cart</h1>
-<ul>
-    {% for product in products %}
-        <li>
-            {{ product['item'] }} {{ product['quantity']}}
-            <form method="POST">
-                {{ form.csrf_token }}
-                {{ form.id(value=product['id']) }}
-                {{ form.quantity }}
-                {{ form.submit_update }}
-            </form>
-            <a href="{{ url_for('remove_from_cart', id=product['id'] )}}"><button>remove</button></a>
-        </li>
+<section id="cart">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+        <p class="error"><strong>{{ message }}</strong></p>
     {% endfor %}
-</ul>
+    {% endif %}
+    {% endwith %}
+    <div class="grid-container">
+        <div class="grid-header">
+            <h1>Your shopping cart</h1>
+        </div>
+        <div class="grid-items">
+                {% for product in products %}
+                <div class="cart-item">
+                    <img src="{{ url_for('static', filename=product.image_url)}}" class="cart-image" alt="">
+                        <h2>{{ product['item'] }}</h2> 
+                       <p> {{ product['quantity']}} </p>
+                        <p>¥{{ product['price']}}</p>
+                        <div class="form-container">
+                            <form method="POST">
+                                {{ form.csrf_token }}
+                                {{ form.id(value=product['id']) }}
+                                <div class="form-control">
+                                    {{ form.quantity }}
+                                    {{ form.size }}
+                                    {{ form.submit_update }}
+                                </div>
+                            </form>
+                            <a href="{{ url_for('remove_from_cart', id=product['id'] )}}"><button>remove</button></a>
+                        </div>
+                </div>
+                {% endfor %}
+                
+        </div>
+        <div class="grid-checkout">
+
+        </div>
+    </div>
+</section>
+
 
 {% endblock %}

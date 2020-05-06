@@ -30,7 +30,7 @@ class Product(db.Model):
     available = db.Column(db.Boolean)
     created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     updated = db.Column(db.DateTime, nullable=True)
-    image_url = db.Column(db.String(50), unique=True)
+    image_url = db.Column(db.String(50))
     item = db.relationship('CartItem', backref="product", lazy=True)
 
     def save(self):
@@ -40,7 +40,7 @@ class Product(db.Model):
     def delete(self):
         db.session.delete(self)
         db.session.commit()
-
+    
     def __repr__(self):
         return '<Product: {}>'.format(self.name)
 

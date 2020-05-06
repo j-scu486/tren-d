@@ -32,6 +32,7 @@ class SearchItems(object):
         if filtered_results:
             return filtered_results
         elif filtered_results is None and self.category:
+
             return Product.query.filter_by(product_category=self.category)
         else:
             return Product.query
@@ -42,7 +43,7 @@ class SearchItems(object):
     def get_results(self, sorted_results=None):
         results = sorted_results if sorted_results else self.filter()
 
-        return results.paginate(self.page, session['search'], False)
+        return results.group_by(Product.name).paginate(self.page, session['search'], False)
 
     def get_sorted_results(self, sort_type):
         results = self.filter()

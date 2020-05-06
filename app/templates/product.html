@@ -1,15 +1,77 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>This is the product: {{ product.name }}</h1>
-<img src="{{ url_for('static', filename=product.image_url) }}" alt="">
-<form method="POST">
-    {{ form.csrf_token }}
-    {{ form.quantity }}
-    {{ form.submit_add }}
-    {% for error in form.errors %}
-    <li>{{ error }}</li> 
-{% endfor %}
-</form>
+<section id="product">
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+        <p class="error"><strong>{{ message }}</strong></p>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <div class="grid-container">
+        <div class="grid-product">
+            <div class="product-container">
+                <div class="product-image">
+                    <img src="{{ url_for('static', filename=product.image_url) }}" alt="">
+                </div>
+                    <button class="btn-next"><i class="fas fa-arrow-right"></i></button>
+                    <button class="btn-prev"><i class="fas fa-arrow-left"></i></button>
+                <div class="product-thumbnails">
+                    <div class="thumbnail">
+                        <img src="{{ url_for('static', filename=product.image_url) }}" class="thumb" alt="">
+                    </div>
+                    <div class="thumbnail">
+                        <img src="{{ url_for('static', filename='images/jackets/img1.jpg')}}" class="thumb" alt="">
+                    </div>
+                    <div class="thumbnail">
+                        <img src="{{ url_for('static', filename='images/jackets/img2.jpg')}}" class="thumb" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid-content">
+            <h1>{{ product.name }}</h1>
+            <h1>￥{{ product.price }}</h1>
+            <p>{{ product.description }}</p>
+            <form method="POST">
+                {{ form.csrf_token }}
+                <div class="form-control">
+                    <span class="form-header">Quantity: </span>{{ form.quantity }}
+                </div>
+                <div class="form-control">
+                    <span class="form-header">Size: </span>{{ form.size }}
+                </div>
+                <div class="form-control">
+                    <i class="fas fa-shopping-bag"></i>{{ form.submit_add }}
+                </div>
+                {% for error in form.errors %}
+                <li>{{ error }}</li> 
+            {% endfor %}
+            </form>
+        </div>
+        <div class="grid-sidebar">
+            <div class="icon-container">
+                <div class="icon">
+                    <i class="fas fa-truck fa-2x"></i>
+                    <p>Free Shipping</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-yen-sign fa-2x"></i>
+                    <p>100% Money Back Guarantee</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-headset fa-2x"></i>
+                    <p>Online support 24/7</p>
+                </div>
+            </div>
+            <img src="{{ url_for('static', filename='images/banner-sidebar.jpg')}}" alt="">
+        </div>
+        <div class="grid-review">
+            <h1>Review</h1>
+        </div>
+    </div>
+</section>
 
 {% endblock %}
