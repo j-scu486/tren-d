@@ -8,6 +8,7 @@ class SearchItems(object):
         self.query = query
         self.page = page
         self.url_kwargs = {}
+        self.show_num_pages = session['search'] if 'search' in session else 9
 
     def filter(self):
         filtered_results = None
@@ -43,7 +44,7 @@ class SearchItems(object):
     def get_results(self, sorted_results=None):
         results = sorted_results if sorted_results else self.filter()
 
-        return results.group_by(Product.name).paginate(self.page, session['search'], False)
+        return results.group_by(Product.name).paginate(self.page, self.show_num_pages, False)
 
     def get_sorted_results(self, sort_type):
         results = self.filter()

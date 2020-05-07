@@ -65,6 +65,9 @@ class Order(db.Model):
         db.session.delete(self)
         db.session.commit()
 
+    def mark_paid(self):
+        self.paid = True
+
     def __repr__(self):
         return '<Order ID: {}>'.format(self.id)
 

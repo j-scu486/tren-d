@@ -8,8 +8,9 @@ class AddToCart(FlaskForm):
     quantity = SelectField('Quantity', choices=[(i, i) for i in range(1,20)], coerce=int)
     size = SelectField('Size', choices=[("",""),('L', 'L'), ('M', 'M'), ('S', 'S')], validators=[DataRequired()], coerce=str)
     id = HiddenField()
+    name = HiddenField()
     submit_add = SubmitField('Add to Cart')
-    submit_update = SubmitField('Update Quantity')
+    submit_update = SubmitField('Update')
 
 class OrderForm(FlaskForm):
     first_name = StringField('First Name', validators=[DataRequired()])
