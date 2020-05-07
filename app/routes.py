@@ -164,7 +164,7 @@ def order():
             last_name=form.data['last_name'],
             email=form.data['email'],
             address=form.data['address'],
-            postal_code=form.data['postal_code'],
+            postal_code=form.data['postal_code'], 
             city=form.data['city']
         )
         order.save()
