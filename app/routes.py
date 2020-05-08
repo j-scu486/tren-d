@@ -1,5 +1,5 @@
 from flask import render_template, session, redirect, url_for, request, flash
-from app import app, db
+from app import app, db, r
 from app.models import Product, Order, CartItem, Category
 from app.forms import AddToCart, OrderForm, SearchForm
 from app.search import SearchItems
@@ -21,6 +21,15 @@ def product(id):
     cart_product = None
     form = AddToCart()
     
+    # List most popular items
+    product_ranking = r.zrange('product_ranking', 0, -1, desc=True)[:3]
+    product_ranking_ids = [int(id) for id in product_ranking]
+
+    most_popular = list(Product.query.filter(Product.id.in_(product_ranking_ids)))
+    most_popular.sort(key=lambda x: product_ranking_ids.index(x.id))
+
+    # Add item to cart
+
     if form.validate_on_submit():
         try:
             cart_product = Product.query.filter_by(size=form.data['size'],name=product.name).first()
@@ -46,7 +55,7 @@ def product(id):
         
         return redirect(url_for('cart_list')) 
 
-    return render_template('product.html', product=product, form=form)
+    return render_template('product.html', product=product, form=form, most_popular=most_popular)
 
 @app.route('/cart', methods=('GET', 'POST'))
 def cart_list():
@@ -205,12 +214,23 @@ def order_confirm(id):
     if request.method == 'POST':    
         for key, value in session['cart'].items():
             product = Product.query.filter_by(id=key).first()
-            print(product)
             cart_item_to_order = CartItem(
                                 product_id=product.id,
                                 order_id=order.id,
                                 quantity=value['quantity']
                                 )
+            # Save items to the order
             cart_item_to_order.save()
-    
+            # Mark the order as paid
+            order.mark_paid()
+            # Increment redis total purchased amount
+            total_purchased = r.incr('product:{}:purchased'.format(product.id))
+            # Increment rankings
+            r.zincrby('product_ranking', 1, product.id)
+
     return render_template('order_confirm.html')
+
+@app.route('/redis')
+def test():
+    
+    return 'Success'

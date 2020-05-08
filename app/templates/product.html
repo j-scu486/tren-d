@@ -67,6 +67,20 @@
                 </div>
             </div>
             <img src="{{ url_for('static', filename='images/banner-sidebar.jpg')}}" alt="">
+            <div class="hot-items-container">
+                <h2>Trending Items</h2>
+                {% for product in most_popular %}
+                <div class="hot-item">
+                    <a href="{{ url_for('product', id=product.id) }}">
+                        <img src="{{ url_for('static', filename=product.image_url)}}" alt="">
+                    </a>
+                    <div class="hot-item-info">
+                        <p><strong>{{ product.name }}</strong></p>
+                        <p>¥{{ product.price }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
         <div class="grid-review">
             <h1>Review</h1>
