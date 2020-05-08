@@ -1,40 +1,70 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>This is the order page</h1>
-<form method="POST">
-    {{ form.csrf_token }}
-   <p>
-       First Name: 
-    {{ form.first_name }}
-   </p> 
-   <p>
-       Last Name:
-    {{ form.last_name }}
+<section id="order">
+    <div class="grid-container">
+        <div class="grid-header">
+            <h1>checkout</h1>
+            <div class="line-container">
+                <span class="circle-active">&#10004;</span>
+                <span class="circle-inactive">2.</span>
+            </div>
+        </div>
+        <div class="grid-form">
+            <div class="form-container">
+                <h2>Please fill in your details</h2>
+                <form method="POST">
+                    {{ form.csrf_token }}
+                       <div class="form-control">
+                           {{ form.first_name.label }}
+                           {{ form.first_name }}
+                       </div>
+                        <div class="form-control">
+                            {{ form.last_name.label }}
+                            {{ form.last_name }}
+                        </div>
+                        <div class="form-control">
+                            {{ form.email.label }}
+                            {{ form.email }}
+                        </div>
+                        <div class="form-control">
+                            {{ form.address.label }}
+                            {{ form.address }}
+                        </div>
+                        <div class="form-control">
+                            {{ form.postal_code.label }}
+                            {{ form.postal_code }}
+                        </div>
+                        <div class="form-control">
+                            {{ form.city.label }}
+                            {{ form.city }}
+                        </div>
+                    {{ form.submit }}   
+                   {% for error in form.errors %}
+                    <li>{{ error }}</li> 
+                   {%endfor %}
+                </form>
+            </div>
+        </div>
+        <div class="grid-summary">
+            <div class="summary-container">
+                <h1>Summary</h1>
+                <div class="product-container">
+                    {% for product in products %}
+                    <div class="product">
+                        <div class="image"><img src="{{ url_for('static', filename=product['image_url'])}}" alt=""></div>
+                        <div class="info">
+                            <span> {{ product['item']}}</span>  
+                            <span>Qty: {{ product['quantity'] }}</span> 
+                        </div>
+                        <div class="price">¥{{ product['subtotal']}}</div>
+                    </div>
+                    {% endfor %}
+                </div>
 
-   </p>
-   <p>
-       Email: 
-    {{ form.email }}
-   </p>
-   <p>
-       Address: 
-    {{ form.address }}
-   </p>
-   <p>
-       Post Code:
-       {{ form.postal_code }}
-   </p>
-   <p>
-    City: 
-    {{ form.city }}
-   </p>
-   <p>
-    {{ form.submit }}
-   </p>
-   {% for error in form.errors %}
-    <li>{{ error }}</li> 
-   {%endfor %}
-</form>
+            </div>
+        </div>
+    </div>
+</section>
 
 {% endblock %}

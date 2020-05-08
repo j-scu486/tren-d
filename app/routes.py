@@ -157,6 +157,19 @@ def order():
     On successful completion of an order, flash a success message
     """
     form = OrderForm()
+    products = []
+
+    if session['cart']:
+        for key, value in session['cart'].items():
+            product = Product.query.filter_by(id=key).first()
+            products.append({
+                'id': key,
+                'item': product.name,
+                'quantity': value['quantity'],
+                'price': product.price,
+                'subtotal': (product.price * value['quantity']),
+                'image_url': product.image_url
+            })
 
     if form.validate_on_submit():
         order = Order(
@@ -171,7 +184,7 @@ def order():
 
         return redirect(url_for('order_confirm', id=order.id))
 
-    return render_template('order.html', form=form)
+    return render_template('order.html', form=form, products=products)
 
 """
     Route for confirming order.
