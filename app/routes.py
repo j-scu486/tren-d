@@ -113,7 +113,7 @@ def cart_list():
     return render_template('cart.html', products=products, form=form, total_tax=total_tax, total=total)
 
 def cart_length():
-    return len(session['cart'])
+    return len(session['cart']) if 'cart' in session else 0
 
 @app.route('/remove-cart/<string:id>')
 def remove_from_cart(id):
