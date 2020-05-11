@@ -518,7 +518,7 @@ p.error {
     grid-template-areas: 
     "product content content sidebar"
     "product content content sidebar"
-    "review review review sidebar"
+    "recommend recommend recommend sidebar"
     ;
     grid-gap: 2rem;
 }
@@ -545,8 +545,8 @@ p.error {
     margin-top: 50px;
 }
 
-#product .grid-review {
-    grid-area: review;
+#product .grid-recommend {
+    grid-area: recommend;
 
 }
 
@@ -693,6 +693,26 @@ p.error {
     height: 100px;
     margin: 0;
     width: 100px;
+}
+
+#product .recommend-container {
+    display: flex;
+    justify-content: center;
+}
+
+#product .grid-recommend h2 {
+    margin-bottom: 50px;
+    border-bottom: 1px dotted rgba(92, 92, 92, 0.2);
+}
+
+#product .recommend-container .recommend-item {
+    margin: 0 50px;
+    text-align: center;
+}
+
+#product .recommend-container img {
+    height: 200px;
+    width: auto;
 }
 
 /* Cart */

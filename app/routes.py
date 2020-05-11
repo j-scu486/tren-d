@@ -3,6 +3,7 @@ from app import app, db, r
 from app.models import Product, Order, CartItem, Category
 from app.forms import AddToCart, OrderForm, SearchForm
 from app.search import SearchItems
+from .recommend import Recommender
 
 @app.route('/')
 def index():
@@ -27,6 +28,9 @@ def product(id):
 
     most_popular = list(Product.query.filter(Product.id.in_(product_ranking_ids)))
     most_popular.sort(key=lambda x: product_ranking_ids.index(x.id))
+
+    # List recommended items
+    recommended_products = Recommender().suggest_products_for([product])
 
     # Add item to cart
 
@@ -55,7 +59,7 @@ def product(id):
         
         return redirect(url_for('cart_list')) 
 
-    return render_template('product.html', product=product, form=form, most_popular=most_popular)
+    return render_template('product.html', product=product, form=form, most_popular=most_popular, recommended=recommended_products)
 
 @app.route('/cart', methods=('GET', 'POST'))
 def cart_list():
@@ -211,6 +215,7 @@ def order_confirm(id):
     
     order = Order.query.filter_by(id=id).first()
     products = []
+    product_ids = []
 
     if session['cart']:
         for key, value in session['cart'].items():
@@ -235,6 +240,7 @@ def order_confirm(id):
                                 order_id=order.id,
                                 quantity=value['quantity']
                                 )
+            product_ids.append(product.id)
             # Save items to the order
             cart_item_to_order.save()
             # Mark the order as paid
@@ -247,17 +253,14 @@ def order_confirm(id):
             r.zincrby('product_ranking', 1, product.id)
             # Clear Cart
             session['cart'] = {}
-            
+        
+        # Update Recommendations
+        Recommender().products_bought(product_ids)
 
-            return redirect(url_for('thanks'))
+        return redirect(url_for('thanks'))
 
     return render_template('order_confirm.html', products=products, order=order)
 
 @app.route('/order-confirmed')
 def thanks():
     return render_template('order_thanks.html')
-
-@app.route('/redis')
-def test():
-    
-    return 'Success'

@@ -82,8 +82,17 @@
                 {% endfor %}
             </div>
         </div>
-        <div class="grid-review">
-            <h1>Review</h1>
+        <div class="grid-recommend">
+            <h2>Customers who bought this also bought...</h2>
+            <div class="recommend-container">
+                {% for p in recommended %}
+                <div class="recommend-item">
+                    <a href="{{url_for('product', id=p.id) }}"><img src="{{ url_for('static', filename=p.image_url) }}" alt=""></a>
+                    <p>{{ p.name }}</p>
+                    <p><strong>¥{{ p.price }}</strong></p>
+                </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 </section>
