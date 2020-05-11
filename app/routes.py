@@ -108,6 +108,9 @@ def cart_list():
         return redirect(url_for('cart_list'))
     return render_template('cart.html', products=products, form=form, total_tax=total_tax, total=total)
 
+def cart_length():
+    return len(session['cart'])
+
 @app.route('/remove-cart/<string:id>')
 def remove_from_cart(id):
     del session['cart'][id]
@@ -207,6 +210,19 @@ def order():
 def order_confirm(id):
     
     order = Order.query.filter_by(id=id).first()
+    products = []
+
+    if session['cart']:
+        for key, value in session['cart'].items():
+            product = Product.query.filter_by(id=key).first()
+            products.append({
+                'id': key,
+                'item': product.name,
+                'quantity': value['quantity'],
+                'price': product.price,
+                'subtotal': (product.price * value['quantity']),
+                'image_url': product.image_url
+            })
 
     if order is None:
         return redirect(url_for('cart_list'))
@@ -223,12 +239,23 @@ def order_confirm(id):
             cart_item_to_order.save()
             # Mark the order as paid
             order.mark_paid()
+            # Find products and reduce their stock accordingly
+            product.reduce_qty(value['quantity'])
             # Increment redis total purchased amount
             total_purchased = r.incr('product:{}:purchased'.format(product.id))
             # Increment rankings
             r.zincrby('product_ranking', 1, product.id)
+            # Clear Cart
+            session['cart'] = {}
+            
 
-    return render_template('order_confirm.html')
+            return redirect(url_for('thanks'))
+
+    return render_template('order_confirm.html', products=products, order=order)
+
+@app.route('/order-confirmed')
+def thanks():
+    return render_template('order_thanks.html')
 
 @app.route('/redis')
 def test():

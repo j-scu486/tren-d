@@ -40,6 +40,10 @@ class Product(db.Model):
     def delete(self):
         db.session.delete(self)
         db.session.commit()
+
+    def reduce_qty(self, quantity):
+        self.stock = self.stock - quantity
+        self.save()
     
     def __repr__(self):
         return '<Product: {}>'.format(self.name)

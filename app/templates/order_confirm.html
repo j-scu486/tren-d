@@ -1,9 +1,52 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<section id="order-confirm">
+    <div class="grid-container">
+        <div class="grid-header">
+            <h1>checkout</h1>
+            <div class="line-container">
+                <span class="circle-active">&#10004;
+                    <p>Shipping</p>
+                </span>
+                <span class="circle-inactive">&#10004;
+                    <p>Review and Payment</p>
+                </span>
+            </div>
+        </div>
+        <div class="grid-form">
+            <h2>Please confirm your details and submit</h2>
+            <div class="form-container">
+                <div class="order-confirmation">
+                    <p>Name: {{ order.first_name }} {{ order.last_name}}</p>
+                    <p>Email: {{ order.email }}</p>
+                    <p>Address: {{ order.address }}, {{ order.city }}, {{order.postal_code }}</p>
+                    <p>Country: Japan</p>
+                    <form method="POST">
+                        <input type="submit" value="confirm">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="grid-summary">
+            <div class="summary-container">
+                <h1>Summary</h1>
+                <div class="product-container">
+                    {% for product in products %}
+                    <div class="product">
+                        <div class="image"><img src="{{ url_for('static', filename=product['image_url'])}}" alt=""></div>
+                        <div class="info">
+                            <span> {{ product['item']}}</span>  
+                            <span>Qty: {{ product['quantity'] }}</span> 
+                        </div>
+                        <div class="price">¥{{ product['subtotal']}}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-<form method="POST">
-    <input type="submit" value="confirm">
-</form>
 
 {% endblock %}

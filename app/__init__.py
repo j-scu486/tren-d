@@ -15,6 +15,12 @@ admin = Admin(app, name='TREN-D', template_mode='bootstrap3')
 r = redis.StrictRedis(host=app.config['REDIS_HOST'], port=app.config['REDIS_PORT'], db=app.config['REDIS_DB'])
 
 from app import routes, models
+from app.routes import cart_length
+
+# Context Processor
+@app.context_processor
+def cart_l():
+    return dict(cart_l=cart_length)
 
 # Flask-Admin
 
