@@ -54,7 +54,9 @@
                 <div class="summary-control">
                     <h2>Order Total: ¥{{ total_tax }}</h2>
                 </div>
+                {% if products %}
                 <a href="{{ url_for('order')}}"><button>Go to checkout</button></a>
+                {% endif %}
             </div>
         </div>
     </div>

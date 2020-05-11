@@ -83,6 +83,7 @@
             </div>
         </div>
         <div class="grid-recommend">
+            {% if recommended %}
             <h2>Customers who bought this also bought...</h2>
             <div class="recommend-container">
                 {% for p in recommended %}
@@ -93,6 +94,7 @@
                 </div>
                 {% endfor %}
             </div>
+            {% endif %}
         </div>
     </div>
 </section>

@@ -1,0 +1,6 @@
+{% extends admin_base_template %}
+
+{% block menu_links %}
+{{ super() }}
+<a href="{{ url_for('logout')}}" class="btn btn-primary">Logout</a>
+{% endblock %}
